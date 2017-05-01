@@ -18,6 +18,10 @@
           </div>
         </router-link>
 
+        <router-link :to="indexPagePath" v-if="userinfo !== null">
+          <md-button v-if="userinfo !== null" @click.native="logout()">退出</md-button>
+        </router-link>
+
         <md-button v-if="userinfo === null" id="login" @click.native="openDialog('loginDialog')">登录</md-button>
         <md-button v-if="userinfo === null" id="register" @click.native="openDialog('registerDialog')">注册</md-button>
 
@@ -51,6 +55,9 @@
       // TODO: solve the route problem with the dirty method, will be modified later
       userIdPath () {
         return 'users/' + this.userinfo.id + '/info'
+      },
+      indexPagePath () {
+        return '/'
       }
     },
     methods: {
@@ -63,9 +70,15 @@
       onSuccessLogin (user) {
         saveToLocal(MOCK_ID, 'userinfo', user)
         this.closeDialog('loginDialog')
+
+        this.userinfo = user
       },
       onSuccessRegister () {
         this.closeDialog('registerDialog')
+      },
+      logout () {
+        this.userinfo = null
+        // TODO: need to clear localStorage
       }
     },
     components: {

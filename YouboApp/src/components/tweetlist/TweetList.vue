@@ -78,11 +78,14 @@
           <md-layout md-align="end">
             <md-button class="md-raised md-primary" @click.native="publishTweet">发布</md-button>
           </md-layout>
-
         </div>
 
         <div style="width: 100%">
-          <TweetItem v-for="item in tweetList" :key="item.id" :tweet="item"></TweetItem>
+          <div v-for="item in tweetList" :key="item.id">
+            <TweetItem  :tweet="item"></TweetItem>
+            <Split></Split>
+          </div>
+          <!--<TweetItem v-for="item in tweetList" :key="item.id" :tweet="item"></TweetItem>-->
         </div>
       </md-layout>
 
@@ -97,6 +100,7 @@
   import querystring from 'querystring'
   import { loadFromLocal, MOCK_ID } from '../../common/js/store'
   import TweetItem from '../tweetitem/TweetItem'
+  import Split from '../split/Split'
 
   const BASE_URL = 'http://localhost:8000/'
 
@@ -135,7 +139,8 @@
       }
     },
     components: {
-      TweetItem
+      TweetItem,
+      Split
     }
   }
 </script>

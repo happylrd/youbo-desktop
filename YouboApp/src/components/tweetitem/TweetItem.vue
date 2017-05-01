@@ -30,7 +30,7 @@
             </md-button>
 
             <md-button class="md-icon-button">
-              <md-icon>bookmark</md-icon>
+              <md-icon>comment</md-icon>
             </md-button>
 
             <md-button class="md-icon-button">

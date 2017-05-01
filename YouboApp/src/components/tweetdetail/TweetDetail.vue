@@ -1,59 +1,61 @@
 <template>
   <div>
 
-    <md-layout md-align="center">
-      <div class="card-wrapper">
+    <md-layout md-gutter>
+      <md-layout></md-layout>
 
-        <md-card md-with-hover>
+      <md-layout md-flex="50">
+        <div style="width: 100%">
 
-          <md-card-header>
-            <md-avatar>
-              <img src="../../assets/youbo-logo.png" alt="Avatar">
-            </md-avatar>
+          <md-card md-with-hover>
 
-            <div class="md-title">Username</div>
-            <div class="md-subhead">2017/01/01</div>
-          </md-card-header>
+            <md-card-header>
+              <md-avatar>
+                <img src="../../assets/youbo-logo.png" alt="Avatar">
+              </md-avatar>
 
-          <md-card-media>
-            <img src="../../assets/tweet-image-test.jpg" alt="Tweet Image">
+              <div class="md-title">Username</div>
+              <div class="md-subhead">2017/01/01</div>
+            </md-card-header>
 
-            <md-ink-ripple></md-ink-ripple>
-          </md-card-media>
+            <md-card-media>
+              <img src="../../assets/tweet-image-test.jpg" alt="Tweet Image">
 
-          <md-card-content v-if="tweet">{{tweet.content}}</md-card-content>
+              <md-ink-ripple></md-ink-ripple>
+            </md-card-media>
 
-          <md-card-actions>
-            <md-button class="md-icon-button">
-              <md-icon>favorite</md-icon>
-            </md-button>
+            <md-card-content v-if="tweet">{{tweet.content}}</md-card-content>
 
-            <md-button class="md-icon-button">
-              <md-icon>share</md-icon>
-            </md-button>
-          </md-card-actions>
-        </md-card>
+            <md-card-actions>
+              <md-button class="md-icon-button">
+                <md-icon>favorite</md-icon>
+              </md-button>
 
-      </div>
-    </md-layout>
+              <md-button class="md-icon-button">
+                <md-icon>comment</md-icon>
+              </md-button>
 
-    <md-layout md-align="center" md-gutter="8">
-      <md-layout md-flex="10">
+              <md-button class="md-icon-button">
+                <md-icon>share</md-icon>
+              </md-button>
+            </md-card-actions>
+          </md-card>
 
-        <md-avatar>
-          <img src="../../assets/youbo-logo.png" alt="Avatar">
-        </md-avatar>
+        </div>
 
+        <div style="width: 100%">
+          <md-input-container>
+            <label>评论</label>
+            <md-textarea v-model="comment" maxlength="150"></md-textarea>
+          </md-input-container>
+
+          <md-layout md-align="end">
+            <md-button class="md-raised md-primary" @click.native="publishComment">发布</md-button>
+          </md-layout>
+        </div>
       </md-layout>
 
-      <md-layout md-flex="55">
-
-        <md-input-container>
-          <label>说说你的看法</label>
-          <md-textarea maxlength="70"></md-textarea>
-        </md-input-container>
-
-      </md-layout>
+      <md-layout></md-layout>
     </md-layout>
 
   </div>
@@ -67,7 +69,8 @@
   export default {
     data () {
       return {
-        tweet: null
+        tweet: null,
+        comment: ''
       }
     },
     created () {
@@ -81,6 +84,10 @@
         .catch(error => {
           console.log(error)
         })
+    },
+    methods: {
+      publishComment () {
+      }
     }
   }
 </script>
