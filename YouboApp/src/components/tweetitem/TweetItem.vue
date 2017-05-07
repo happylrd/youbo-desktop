@@ -13,7 +13,7 @@
             </md-avatar>
 
             <div class="md-title">{{tweet.user.nickname}}</div>
-            <div class="md-subhead">{{tweet.user.addTime.year}}/{{tweet.user.addTime.monthValue}}/{{tweet.user.addTime.dayOfMonth}}</div>
+            <div class="md-subhead">{{tweet.user.createTime.year}}/{{tweet.user.createTime.monthValue}}/{{tweet.user.createTime.dayOfMonth}}</div>
           </md-card-header>
 
           <!--<md-card-media>-->

@@ -37,8 +37,7 @@
 <script>
   import Axios from 'axios'
   import querystring from 'querystring'
-
-  const BASE_URL = 'http://localhost:8000/'
+  import {BASE_URL} from '../../common/js/constant'
 
   export default {
     data () {

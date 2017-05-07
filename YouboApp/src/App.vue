@@ -11,8 +11,7 @@
 <script>
   import Axios from 'axios'
   import Header from './components/header/Header'
-
-  const BASE_URL = 'http://localhost:8000/'
+  import { BASE_URL } from './common/js/constant'
 
   export default {
     data () {

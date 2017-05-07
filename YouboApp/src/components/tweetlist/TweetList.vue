@@ -82,10 +82,9 @@
 
         <div style="width: 100%">
           <div v-for="item in tweetList" :key="item.id">
-            <TweetItem  :tweet="item"></TweetItem>
+            <TweetItem :tweet="item"></TweetItem>
             <Split></Split>
           </div>
-          <!--<TweetItem v-for="item in tweetList" :key="item.id" :tweet="item"></TweetItem>-->
         </div>
       </md-layout>
 
@@ -101,8 +100,7 @@
   import { loadFromLocal, MOCK_ID } from '../../common/js/store'
   import TweetItem from '../tweetitem/TweetItem'
   import Split from '../split/Split'
-
-  const BASE_URL = 'http://localhost:8000/'
+  import { BASE_URL } from '../../common/js/constant'
 
   export default {
     props: {
