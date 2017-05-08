@@ -4,10 +4,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
+
 import App from './App'
-import TweetList from './components/tweetlist/TweetList'
 import TweetDetail from './components/tweetdetail/TweetDetail'
-import MyPage from './components/mypage/MyPage'
+import MainPage from './pages/mainpage/MainPage'
+import MyPage from './pages/mypage/MyPage'
+import TweetSearchPage from './pages/tweetsearchpage/TweetSearchPage'
 
 Vue.config.productionTip = false
 
@@ -21,16 +23,20 @@ Vue.material.registerTheme('default', {
 const routes = [
   {
     path: '/',
-    component: TweetList,
+    component: MainPage,
     redirect: '/tweets'
   },
   {
     path: '/tweets',
-    component: TweetList
+    component: MainPage
   },
   {
     path: '/tweets/:id',
     component: TweetDetail
+  },
+  {
+    path: '/search',
+    component: TweetSearchPage
   },
   {
     path: '/users/:id/info',

@@ -53,7 +53,8 @@
           </md-layout>
         </div>
 
-        <div style="width: 100%" v-if="userinfo != null">
+        <!-- TODO: will change ui later -->
+        <div style="width: 100%; margin-top: 70px">
           <div v-for="item in commentList" :key="item.id">
             <md-card>
               <md-card-header>
@@ -108,25 +109,11 @@
         duration: 4000
       }
     },
-    mounted () {
-      Axios.get(TWEET_API + this.$route.params.id)
-        .then(response => {
-          this.tweet = response.data.data
-          console.log(this.tweet)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-
-      const GET_COMMENT_API = TWEET_API + this.$route.params.id + '/comments'
-
-      Axios.get(GET_COMMENT_API)
-        .then(response => {
-          this.commentList = response.data.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
+    created () {
+      this.fetchData()
+    },
+    watch: {
+      '$route': 'fetchData'
     },
     methods: {
       openSnackbar (ref) {
@@ -134,6 +121,26 @@
       },
       closeSnackbar (ref) {
         this.$refs[ref].close()
+      },
+      fetchData () {
+        Axios.get(TWEET_API + this.$route.params.id)
+          .then(response => {
+            this.tweet = response.data.data
+            console.log(this.tweet)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+
+        const GET_COMMENT_API = TWEET_API + this.$route.params.id + '/comments'
+
+        Axios.get(GET_COMMENT_API)
+          .then(response => {
+            this.commentList = response.data.data
+          })
+          .catch(error => {
+            console.log(error)
+          })
       },
       publishComment () {
         Axios.post(INSERT_COMMENT_API, querystring.stringify({

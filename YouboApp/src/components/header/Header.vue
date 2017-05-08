@@ -8,9 +8,8 @@
           <router-link to="/">Youbo</router-link>
         </h2>
 
-        <md-button class="md-icon-button">
-          <md-icon>search</md-icon>
-        </md-button>
+        <!-- TODO: need to change ui -->
+        <SearchBox @getParamSuccess="onSuccessGetParam"></SearchBox>
 
         <router-link :to="userIdPath" v-if="userinfo !== null">
           <div class="user-link-wrapper">
@@ -21,7 +20,7 @@
           </div>
         </router-link>
 
-        <router-link :to="indexPagePath" v-if="userinfo !== null">
+        <router-link to="/" v-if="userinfo !== null">
           <md-button v-if="userinfo !== null" @click.native="logout()">退出</md-button>
         </router-link>
 
@@ -58,6 +57,7 @@
 
 <script>
   import { saveToLocal, loadFromLocal, MOCK_ID, USER_INFO_KEY } from '../../common/js/store'
+  import SearchBox from '../base/searchbox/SearchBox'
   import Login from '../login/Login'
   import Register from '../register/Register'
 
@@ -75,10 +75,7 @@
     computed: {
       // TODO: solve the route problem with the dirty method, will be improved later
       userIdPath () {
-        return 'users/' + this.userinfo.id + '/info'
-      },
-      indexPagePath () {
-        return '/'
+        return '/users/' + this.userinfo.id + '/info'
       }
     },
     methods: {
@@ -109,9 +106,13 @@
         this.userinfo = null
         saveToLocal(MOCK_ID, USER_INFO_KEY, null)
         this.openSnackbar('logoutSnackbar')
+      },
+      onSuccessGetParam (searchText) {
+        this.$router.push({path: '/search', query: {content: searchText}})
       }
     },
     components: {
+      SearchBox,
       Login,
       Register
     }

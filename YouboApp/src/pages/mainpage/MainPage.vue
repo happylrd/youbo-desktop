@@ -91,6 +91,23 @@
       <md-layout></md-layout>
     </md-layout>
 
+    <div class="fab-fixed-right-bottom">
+      <md-speed-dial md-open="hover" md-direction="top">
+        <md-button class="md-fab" md-fab-trigger>
+          <md-icon md-icon-morph>event</md-icon>
+          <md-icon>add</md-icon>
+        </md-button>
+
+        <md-button class="md-fab md-mini md-clean md-accent">
+          <md-icon>palette</md-icon>
+        </md-button>
+
+        <md-button class="md-fab md-mini md-clean md-accent">
+          <md-icon>edit</md-icon>
+        </md-button>
+      </md-speed-dial>
+    </div>
+
     <md-snackbar :md-position="vertical + ' ' + horizontal" ref="publishTweetSnackbar" :md-duration="duration">
       <span>发推文成功</span>
       <md-button class="md-accent" @click.native="closeSnackbar('publishTweetSnackbar')">确定</md-button>
@@ -102,8 +119,8 @@
   import Axios from 'axios'
   import querystring from 'querystring'
   import { loadFromLocal, MOCK_ID, USER_INFO_KEY } from '../../common/js/store'
-  import TweetItem from '../tweetitem/TweetItem'
-  import Split from '../split/Split'
+  import TweetItem from '../../components/tweetitem/TweetItem'
+  import Split from '../../components/split/Split'
   import { INSERT_TWEET_API } from '../../common/js/constant'
 
   export default {
@@ -157,5 +174,9 @@
 </script>
 
 <style scoped>
-
+  .fab-fixed-right-bottom {
+    position: fixed;
+    bottom: 16px;
+    right: 16px
+  }
 </style>
