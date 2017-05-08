@@ -28,3 +28,4 @@ export function loadFromLocal (id, key, defaultValue) {
 
 // TODO: will be improved later
 export const MOCK_ID = 1
+export const USER_INFO_KEY = 'userinfo'

@@ -11,7 +11,7 @@
 <script>
   import Axios from 'axios'
   import Header from './components/header/Header'
-  import { BASE_URL } from './common/js/constant'
+  import { TWEET_API } from './common/js/constant'
 
   export default {
     data () {
@@ -20,8 +20,6 @@
       }
     },
     created () {
-      const TWEET_API = BASE_URL + 'tweets/'
-
       Axios.get(TWEET_API)
         .then(response => {
           this.tweetList = response.data.data

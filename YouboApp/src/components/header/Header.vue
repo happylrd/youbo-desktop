@@ -3,7 +3,10 @@
     <div class="phone-viewport">
 
       <md-toolbar class="md-dense">
-        <h2 class="md-title" style="flex: 1">Youbo</h2>
+
+        <h2 class="md-title" style="flex: 1">
+          <router-link to="/">Youbo</router-link>
+        </h2>
 
         <md-button class="md-icon-button">
           <md-icon>search</md-icon>
@@ -35,11 +38,26 @@
         <Register @registerSuccess="onSuccessRegister"></Register>
       </md-dialog>
     </div>
+
+    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="loginSnackbar" :md-duration="duration">
+      <span>登录成功</span>
+      <md-button class="md-accent" @click.native="closeSnackbar('loginSnackbar')">确定</md-button>
+    </md-snackbar>
+
+    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="logoutSnackbar" :md-duration="duration">
+      <span>退出成功</span>
+      <md-button class="md-warn" @click.native="closeSnackbar('logoutSnackbar')">确定</md-button>
+    </md-snackbar>
+
+    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="registerSnackbar" :md-duration="duration">
+      <span>注册成功</span>
+      <md-button class="md-accent" @click.native="closeSnackbar('registerSnackbar')">确定</md-button>
+    </md-snackbar>
   </div>
 </template>
 
 <script>
-  import { saveToLocal, loadFromLocal, MOCK_ID } from '../../common/js/store'
+  import { saveToLocal, loadFromLocal, MOCK_ID, USER_INFO_KEY } from '../../common/js/store'
   import Login from '../login/Login'
   import Register from '../register/Register'
 
@@ -47,12 +65,15 @@
     data () {
       return {
         userinfo: (() => {
-          return loadFromLocal(MOCK_ID, 'userinfo', null)
-        })()
+          return loadFromLocal(MOCK_ID, USER_INFO_KEY, null)
+        })(),
+        vertical: 'bottom',
+        horizontal: 'center',
+        duration: 4000
       }
     },
     computed: {
-      // TODO: solve the route problem with the dirty method, will be modified later
+      // TODO: solve the route problem with the dirty method, will be improved later
       userIdPath () {
         return 'users/' + this.userinfo.id + '/info'
       },
@@ -67,18 +88,27 @@
       closeDialog (ref) {
         this.$refs[ref].close()
       },
+      openSnackbar (ref) {
+        this.$refs[ref].open()
+      },
+      closeSnackbar (ref) {
+        this.$refs[ref].close()
+      },
       onSuccessLogin (user) {
-        saveToLocal(MOCK_ID, 'userinfo', user)
+        saveToLocal(MOCK_ID, USER_INFO_KEY, user)
         this.closeDialog('loginDialog')
+        this.openSnackbar('loginSnackbar')
 
         this.userinfo = user
       },
       onSuccessRegister () {
         this.closeDialog('registerDialog')
+        this.openSnackbar('registerSnackbar')
       },
       logout () {
         this.userinfo = null
-        // TODO: need to clear localStorage
+        saveToLocal(MOCK_ID, USER_INFO_KEY, null)
+        this.openSnackbar('logoutSnackbar')
       }
     },
     components: {

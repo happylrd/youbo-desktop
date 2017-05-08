@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <md-layout md-gutter>
       <md-layout></md-layout>
 
@@ -79,54 +80,63 @@
 
       <md-layout></md-layout>
     </md-layout>
+
+    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="commentSnackbar" :md-duration="duration">
+      <span>发表评论成功</span>
+      <md-button class="md-accent" @click.native="closeSnackbar('commentSnackbar')">确定</md-button>
+    </md-snackbar>
   </div>
 </template>
 
 <script>
   import Axios from 'axios'
   import querystring from 'querystring'
-  import { loadFromLocal, MOCK_ID } from '../../common/js/store'
-  import { BASE_URL } from '../../common/js/constant'
+  import { loadFromLocal, MOCK_ID, USER_INFO_KEY } from '../../common/js/store'
+  import { TWEET_API, INSERT_COMMENT_API } from '../../common/js/constant'
 
   export default {
     data () {
       return {
         userinfo: (() => {
-          return loadFromLocal(MOCK_ID, 'userinfo', null)
+          return loadFromLocal(MOCK_ID, USER_INFO_KEY, null)
         })(),
         tweet: null,
         commentList: null,
-        commentContent: ''
+        commentContent: '',
+        vertical: 'bottom',
+        horizontal: 'center',
+        duration: 4000
       }
     },
-    created () {
-      const TWEET_API = BASE_URL + 'tweets/' + this.$route.params.id
-
-      Axios.get(TWEET_API)
+    mounted () {
+      Axios.get(TWEET_API + this.$route.params.id)
         .then(response => {
           this.tweet = response.data.data
-//          console.log(this.tweet)
+          console.log(this.tweet)
         })
         .catch(error => {
           console.log(error)
         })
 
-      const COMMENT_API = BASE_URL + 'tweets/' + this.$route.params.id + '/comments'
+      const GET_COMMENT_API = TWEET_API + this.$route.params.id + '/comments'
 
-      Axios.get(COMMENT_API)
+      Axios.get(GET_COMMENT_API)
         .then(response => {
           this.commentList = response.data.data
-          console.log(this.commentList)
         })
         .catch(error => {
           console.log(error)
         })
     },
     methods: {
+      openSnackbar (ref) {
+        this.$refs[ref].open()
+      },
+      closeSnackbar (ref) {
+        this.$refs[ref].close()
+      },
       publishComment () {
-        const COMMENT_API = BASE_URL + 'comments'
-
-        Axios.post(COMMENT_API, querystring.stringify({
+        Axios.post(INSERT_COMMENT_API, querystring.stringify({
           // TODO: user state will be improved later
           user: this.userinfo.id,
           tweet: this.tweet.id,
@@ -135,6 +145,8 @@
           .then((response) => {
 //            this.comment = response.data.data
             this.$emit('publishCommentSuccess')
+
+            this.openSnackbar('commentSnackbar')
           })
           .catch(error => {
             console.log(error)

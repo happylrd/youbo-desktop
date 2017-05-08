@@ -69,7 +69,7 @@
 
       <md-layout md-flex="50">
 
-        <div style="width: 100%">
+        <div style="width: 100%" v-if="userinfo != null">
           <md-input-container>
             <label>有什么新鲜事想告诉大家？</label>
             <md-textarea v-model="content" maxlength="150"></md-textarea>
@@ -91,16 +91,20 @@
       <md-layout></md-layout>
     </md-layout>
 
+    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="publishTweetSnackbar" :md-duration="duration">
+      <span>发推文成功</span>
+      <md-button class="md-accent" @click.native="closeSnackbar('publishTweetSnackbar')">确定</md-button>
+    </md-snackbar>
   </div>
 </template>
 
 <script>
   import Axios from 'axios'
   import querystring from 'querystring'
-  import { loadFromLocal, MOCK_ID } from '../../common/js/store'
+  import { loadFromLocal, MOCK_ID, USER_INFO_KEY } from '../../common/js/store'
   import TweetItem from '../tweetitem/TweetItem'
   import Split from '../split/Split'
-  import { BASE_URL } from '../../common/js/constant'
+  import { INSERT_TWEET_API } from '../../common/js/constant'
 
   export default {
     props: {
@@ -112,16 +116,23 @@
     data () {
       return {
         userinfo: (() => {
-          return loadFromLocal(MOCK_ID, 'userinfo', null)
+          return loadFromLocal(MOCK_ID, USER_INFO_KEY, null)
         })(),
-        content: ''
+        content: '',
+        vertical: 'bottom',
+        horizontal: 'center',
+        duration: 4000
       }
     },
     methods: {
+      openSnackbar (ref) {
+        this.$refs[ref].open()
+      },
+      closeSnackbar (ref) {
+        this.$refs[ref].close()
+      },
       publishTweet () {
-        const TWEET_API = BASE_URL + 'tweets'
-
-        Axios.post(TWEET_API, querystring.stringify({
+        Axios.post(INSERT_TWEET_API, querystring.stringify({
           content: this.content,
           user: this.userinfo.id
         }))
@@ -130,6 +141,8 @@
             console.log('发推文成功，内容是:' + this.tweet.content)
 
             this.$emit('publishTweetSuccess')
+
+            this.openSnackbar('publishTweetSnackbar')
           })
           .catch(error => {
             console.log(error)

@@ -28,7 +28,7 @@
 
 <script>
   import Axios from 'axios'
-  import { BASE_URL } from '../../common/js/constant'
+  import { USER_API } from '../../common/js/constant'
 
   export default {
     data () {
@@ -40,9 +40,7 @@
     },
     methods: {
       doLogin () {
-        const USER_API = BASE_URL + 'users/' + this.username
-
-        Axios.get(USER_API)
+        Axios.get(USER_API + this.username)
           .then((response) => {
             this.user = response.data.data
             console.log(this.user)

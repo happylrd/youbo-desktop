@@ -37,7 +37,7 @@
 <script>
   import Axios from 'axios'
   import querystring from 'querystring'
-  import {BASE_URL} from '../../common/js/constant'
+  import {INSERT_USER_API} from '../../common/js/constant'
 
   export default {
     data () {
@@ -49,9 +49,7 @@
     },
     methods: {
       doRegister () {
-        const USER_API = BASE_URL + 'users'
-
-        Axios.post(USER_API, querystring.stringify({
+        Axios.post(INSERT_USER_API, querystring.stringify({
           username: this.username,
           password: this.password,
           nickname: this.nickname

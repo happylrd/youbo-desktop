@@ -7,7 +7,7 @@ import 'vue-material/dist/vue-material.css'
 import App from './App'
 import TweetList from './components/tweetlist/TweetList'
 import TweetDetail from './components/tweetdetail/TweetDetail'
-import MePage from './components/mepage/MePage'
+import MyPage from './components/mypage/MyPage'
 
 Vue.config.productionTip = false
 
@@ -34,7 +34,7 @@ const routes = [
   },
   {
     path: '/users/:id/info',
-    component: MePage
+    component: MyPage
   }
 ]
 
