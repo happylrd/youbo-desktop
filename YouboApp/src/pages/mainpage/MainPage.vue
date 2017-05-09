@@ -85,7 +85,9 @@
 
         <div style="width: 100%">
           <div v-for="item in tweetList" :key="item.id">
-            <TweetItem :tweet="item"></TweetItem>
+            <router-link :to="'/tweets/' + item.id">
+              <TweetItem :tweet="item"></TweetItem>
+            </router-link>
             <Split></Split>
           </div>
         </div>
