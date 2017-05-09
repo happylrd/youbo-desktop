@@ -11,7 +11,7 @@
         <!-- TODO: need to change ui -->
         <SearchBox @getParamSuccess="onSuccessGetParam"></SearchBox>
 
-        <router-link :to="userIdPath" v-if="userinfo !== null">
+        <router-link to="/user/main" v-if="userinfo !== null">
           <div class="user-link-wrapper">
             <md-avatar v-if="userinfo !== null">
               <img src="../../assets/youbo-logo.png" alt="Avatar">
@@ -70,12 +70,6 @@
         vertical: 'bottom',
         horizontal: 'center',
         duration: 4000
-      }
-    },
-    computed: {
-      // TODO: solve the route problem with the dirty method, will be improved later
-      userIdPath () {
-        return '/users/' + this.userinfo.id + '/info'
       }
     },
     methods: {

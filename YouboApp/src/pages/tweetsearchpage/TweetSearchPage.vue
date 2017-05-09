@@ -19,12 +19,14 @@
 
       <md-layout></md-layout>
     </md-layout>
+
+    <div style="text-align: center" v-if="isShowNotFound">什么都没找到...</div>
   </div>
 </template>
 
 <script>
   import Axios from 'axios'
-  import { SEARCH_TWEET_API } from '../../common/js/constant'
+  import { SEARCH_TWEET_API, DELAY_TIME } from '../../common/js/constant'
   import TweetItem from '../../components/tweetitem/TweetItem'
 
   export default {
@@ -32,6 +34,11 @@
       return {
         isLoading: false,
         tweetList: []
+      }
+    },
+    computed: {
+      isShowNotFound () {
+        return !this.isLoading && this.tweetList.length === 0
       }
     },
     created () {
@@ -43,10 +50,9 @@
     methods: {
       fetchData () {
         this.isLoading = true
-        console.log(this.isLoading)
 
         // TODO:just mock loading, will be removed later
-        setTimeout(this.getTweetList, 2000)
+        setTimeout(this.getTweetList, DELAY_TIME)
       },
       getTweetList () {
         Axios.get(SEARCH_TWEET_API + this.$route.query.content)

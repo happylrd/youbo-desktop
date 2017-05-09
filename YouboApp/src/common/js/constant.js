@@ -9,3 +9,6 @@ export const INSERT_TWEET_API = BASE_URL + 'tweets'
 export const SEARCH_TWEET_API = TWEET_API + 'search?content='
 
 export const INSERT_COMMENT_API = BASE_URL + 'comments'
+
+// just mock delay, will be removed later
+export const DELAY_TIME = 1000

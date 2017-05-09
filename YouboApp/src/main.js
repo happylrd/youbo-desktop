@@ -9,6 +9,7 @@ import App from './App'
 import TweetDetail from './components/tweetdetail/TweetDetail'
 import MainPage from './pages/mainpage/MainPage'
 import MyPage from './pages/mypage/MyPage'
+import ProfilePage from './pages/profilepage/ProfilePage'
 import TweetSearchPage from './pages/tweetsearchpage/TweetSearchPage'
 
 Vue.config.productionTip = false
@@ -39,8 +40,12 @@ const routes = [
     component: TweetSearchPage
   },
   {
-    path: '/users/:id/info',
+    path: '/user/main',
     component: MyPage
+  },
+  {
+    path: '/user/settings/profile',
+    component: ProfilePage
   }
 ]
 

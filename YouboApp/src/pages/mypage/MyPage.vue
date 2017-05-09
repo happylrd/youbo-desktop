@@ -1,75 +1,44 @@
 <template>
   <div>
-
     <md-layout md-gutter>
       <md-layout></md-layout>
 
       <md-layout md-flex="50">
-        <div style="width: 100%">
-          <md-card>
-            <md-card-header>
-              <div class="md-title">我的</div>
-            </md-card-header>
 
-            <md-card-content>
-              <md-input-container>
-                <md-icon>account_circle</md-icon>
-                <label>昵称</label>
-                <md-input type="text"
-                          v-model="userinfo.nickname"
-                          :disabled="!isModified"></md-input>
-              </md-input-container>
-
-              <md-input-container>
-                <md-icon>phone</md-icon>
-                <label>手机号</label>
-                <md-input type="number"
-                          v-model="userinfo.username"
-                          disabled></md-input>
-              </md-input-container>
-
-              <md-input-container>
-                <md-icon>account_circle</md-icon>
-                <label>真实姓名</label>
-                <md-input type="text"
-                          v-model="userinfo.realname"
-                          :disabled="!isModified"></md-input>
-              </md-input-container>
-
-              <div>
-                <md-radio v-model="userinfo.gender" md-value="male" :disabled="!isModified">男</md-radio>
-                <md-radio v-model="userinfo.gender" md-value="female" :disabled="!isModified">女</md-radio>
-                <md-radio v-model="userinfo.gender" md-value="unknown" :disabled="!isModified">未知</md-radio>
-              </div>
-
-              <md-input-container>
-                <md-icon>lock</md-icon>
-                <label>头像</label>
-                <md-file v-model="avatar" accept="image/*" :disabled="!isModified"></md-file>
-              </md-input-container>
-
-              <md-button class="md-raised md-primary" @click.native="enterModifyMode">{{isModifyModeStr}}</md-button>
-              <md-button class="md-raised md-warn" @click.native="doModify" v-if="isModified">更改</md-button>
-            </md-card-content>
-          </md-card>
+        <div style="width: 100%; text-align: center">
+          <md-avatar class="md-large">
+            <img src="../../assets/youbo-logo.png" alt="Avatar">
+          </md-avatar>
         </div>
+
+        <div style="width: 100%; text-align: center">
+          <h1>{{userinfo.nickname}}</h1>
+        </div>
+
+        <div style="width: 100%; text-align: center">
+          <router-link to="/user/settings/profile">
+            <md-button class="md-raised">设置</md-button>
+          </router-link>
+        </div>
+
+        <div style="width: 100%; margin-top: 50px">
+          <div v-for="item in tweetList" :key="item.id">
+            <TweetItem :tweet="item"></TweetItem>
+          </div>
+        </div>
+
       </md-layout>
 
       <md-layout></md-layout>
     </md-layout>
-
-    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="updateInfoSnackbar" :md-duration="duration">
-      <span>更新个人信息成功</span>
-      <md-button class="md-accent" @click.native="closeSnackbar('updateInfoSnackbar')">确定</md-button>
-    </md-snackbar>
   </div>
 </template>
 
 <script>
   import Axios from 'axios'
-  import querystring from 'querystring'
   import { USER_API } from '../../common/js/constant'
-  import { loadFromLocal, saveToLocal, MOCK_ID, USER_INFO_KEY } from '../../common/js/store'
+  import { loadFromLocal, MOCK_ID, USER_INFO_KEY } from '../../common/js/store'
+  import TweetItem from '../../components/tweetitem/TweetItem'
 
   export default {
     data () {
@@ -77,45 +46,28 @@
         userinfo: (() => {
           return loadFromLocal(MOCK_ID, USER_INFO_KEY, null)
         })(),
-        isModified: false,
-        user: null,
-        vertical: 'bottom',
-        horizontal: 'center',
-        duration: 4000
+        tweetList: []
       }
     },
-    computed: {
-      isModifyModeStr () {
-        return this.isModified ? '退出更改模式' : '进入更改模式'
-      }
+    created () {
+      this.fetchData()
     },
     methods: {
-      openSnackbar (ref) {
-        this.$refs[ref].open()
+      fetchData () {
+        this.getTweetList()
       },
-      closeSnackbar (ref) {
-        this.$refs[ref].close()
-      },
-      enterModifyMode () {
-        this.isModified = !this.isModified
-      },
-      doModify () {
-        Axios.put(USER_API + this.$route.params.id, querystring.stringify({
-          nickname: this.userinfo.nickname,
-          realname: this.userinfo.realname,
-          gender: this.userinfo.gender,
-          description: this.userinfo.description
-        }))
-          .then((response) => {
-            saveToLocal(MOCK_ID, USER_INFO_KEY, response.data.data)
-//            this.$emit('updateUserInfoSuccess')
-
-            this.openSnackbar('updateInfoSnackbar')
+      getTweetList () {
+        Axios.get(USER_API + this.userinfo.username + '/tweets')
+          .then(response => {
+            this.tweetList = response.data.data
           })
           .catch(error => {
             console.log(error)
           })
       }
+    },
+    components: {
+      TweetItem
     }
   }
 </script>

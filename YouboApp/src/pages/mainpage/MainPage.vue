@@ -1,7 +1,10 @@
 <template>
   <div>
+    <div style="text-align: center" v-if="isLoading">
+      <md-spinner md-indeterminate class="md-accent"></md-spinner>
+    </div>
 
-    <md-layout md-gutter>
+    <md-layout md-gutter v-if="!isLoading">
       <!--TODO: will be extracted later-->
       <md-layout md-align="end">
         <md-layout md-flex="33">
@@ -121,32 +124,42 @@
   import { loadFromLocal, MOCK_ID, USER_INFO_KEY } from '../../common/js/store'
   import TweetItem from '../../components/tweetitem/TweetItem'
   import Split from '../../components/split/Split'
-  import { INSERT_TWEET_API } from '../../common/js/constant'
+  import { TWEET_API, INSERT_TWEET_API, DELAY_TIME } from '../../common/js/constant'
 
   export default {
-    props: {
-      tweetList: {
-        type: Array,
-        default: []
-      }
-    },
     data () {
       return {
         userinfo: (() => {
           return loadFromLocal(MOCK_ID, USER_INFO_KEY, null)
         })(),
+        tweetList: [],
         content: '',
+        isLoading: false,
         vertical: 'bottom',
         horizontal: 'center',
         duration: 4000
       }
     },
+    created () {
+      this.fetchData()
+    },
     methods: {
-      openSnackbar (ref) {
-        this.$refs[ref].open()
+      fetchData () {
+        this.isLoading = true
+
+        // TODO:just mock loading, will be removed later
+        setTimeout(this.getTweetList, DELAY_TIME)
       },
-      closeSnackbar (ref) {
-        this.$refs[ref].close()
+      getTweetList () {
+        Axios.get(TWEET_API)
+          .then(response => {
+            this.isLoading = false
+
+            this.tweetList = response.data.data
+          })
+          .catch(error => {
+            console.log(error)
+          })
       },
       publishTweet () {
         Axios.post(INSERT_TWEET_API, querystring.stringify({
@@ -164,6 +177,12 @@
           .catch(error => {
             console.log(error)
           })
+      },
+      openSnackbar (ref) {
+        this.$refs[ref].open()
+      },
+      closeSnackbar (ref) {
+        this.$refs[ref].close()
       }
     },
     components: {
