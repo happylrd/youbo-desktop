@@ -1,6 +1,6 @@
 # youbo-vue
 
-<img src="Seria/src/common/image/logo2.png" width="128" style="max-width:100%;">
+<img src="Seria/src/common/image/logo.png" width="128" style="max-width:100%;">
 
 Yet another pure and fresh micro blog.
 
@@ -8,6 +8,7 @@ Yet another pure and fresh micro blog.
 
 - **vue**
 - vue-router
+- [element-ui](https://github.com/ElemeFE/element)
 - vue-cli with PWA support
   - webpack
   - express
