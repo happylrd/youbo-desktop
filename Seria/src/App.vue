@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <img src="./common/image/logo.png"/>
   </div>
 </template>
 
