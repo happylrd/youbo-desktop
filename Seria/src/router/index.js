@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import MainPage from '../views/MainPage'
 import TweetDetail from '../views/TweetDetail'
 import TweetSearchPage from '../views/TweetSearchPage'
+import MyPage from '../views/MyPage'
 
 Vue.use(Router)
 
@@ -25,6 +26,10 @@ export default new Router({
     {
       path: '/search',
       component: TweetSearchPage
+    },
+    {
+      path: '/user/main',
+      component: MyPage
     }
   ]
 })

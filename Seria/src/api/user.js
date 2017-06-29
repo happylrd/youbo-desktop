@@ -23,3 +23,12 @@ export function getUser (username) {
       return Promise.resolve(res.data)
     })
 }
+
+export function listMyTweet (username) {
+  const url = BASE_URL + 'users/' + username + '/tweets'
+
+  return axios.get(url)
+    .then(res => {
+      return Promise.resolve(res.data)
+    })
+}
