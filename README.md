@@ -9,6 +9,7 @@ Yet another pure and fresh micro blog.
 - **vue**
 - vue-router
 - [vue-material](https://github.com/vuematerial/vue-material)
+- axios
 - vue-cli with PWA support
   - webpack
   - express
