@@ -22,3 +22,34 @@ export function listTweet () {
       return Promise.resolve(res.data)
     })
 }
+
+export function getTweet (tweetId) {
+  const url = BASE_URL + 'tweets/' + tweetId
+
+  return axios.get(url)
+    .then(res => {
+      return Promise.resolve(res.data)
+    })
+}
+
+export function saveComment (userId, tweetId, content) {
+  const url = BASE_URL + 'comments'
+
+  return axios.post(url, querystring.stringify({
+    user: userId,
+    tweet: tweetId,
+    content: content
+  }))
+    .then(res => {
+      return Promise.resolve(res.data)
+    })
+}
+
+export function getComment (tweetId) {
+  const url = BASE_URL + 'tweets/' + tweetId + '/comments'
+
+  return axios.get(url)
+    .then(res => {
+      return Promise.resolve(res.data)
+    })
+}
