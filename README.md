@@ -8,7 +8,7 @@ Yet another pure and fresh micro blog.
 
 - **vue**
 - vue-router
-- [element-ui](https://github.com/ElemeFE/element)
+- [vue-material](https://github.com/vuematerial/vue-material)
 - vue-cli with PWA support
   - webpack
   - express
