@@ -32,6 +32,15 @@ export function getTweet (tweetId) {
     })
 }
 
+export function searchTweet (content) {
+  const url = BASE_URL + 'tweets/search?content=' + content
+
+  return axios.get(url)
+    .then(res => {
+      return Promise.resolve(res.data)
+    })
+}
+
 export function saveComment (userId, tweetId, content) {
   const url = BASE_URL + 'comments'
 
