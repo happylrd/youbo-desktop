@@ -1,6 +1,6 @@
 # youbo-vue
 
-![Youbo](YouboApp/src/assets/youbo-logo.png)
+<img src="Seria/src/common/image/logo.png" width="128" style="max-width:100%;">
 
 Yet another pure and fresh micro blog.
 
@@ -8,5 +8,7 @@ Yet another pure and fresh micro blog.
 
 - **vue**
 - vue-router
-- vue-material
-- axios
+- [vue-material](https://github.com/vuematerial/vue-material)
+- vue-cli with PWA support
+  - webpack
+  - express
